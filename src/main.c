@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 struct Arena {
     unsigned int seats;
     void* head;
     void* pos;
 
 };
+
 
 struct Arena* constructArena(const unsigned int seats){
     struct Arena* arena_ptr = (struct Arena*)malloc(seats + sizeof(struct Arena)); 
@@ -22,17 +24,24 @@ struct Arena* constructArena(const unsigned int seats){
 }
 
 
-void* enterCombatant(struct Arena* arena, const unsigned int girth) {  
-    if ((char*)arena->pos + girth > (char*)arena->head + arena->seats) {
+void* enterCombatant(struct Arena* arena, const unsigned int fighterGirth) {  
+    if ((char*)arena->pos + fighterGirth > (char*)arena->head + arena->seats) {
         return NULL;
     }
     void* current = arena->pos;
-    arena->pos = (void*)((char*)arena->pos + girth);
+    arena->pos = (void*)((char*)arena->pos + fighterGirth);
     return current;
 }
 
 
+// kills combatants!
 void greyPrince(struct Arena* arena) {
+    arena->pos = arena->head;
+}
+
+
+// kill everything! Does Skooma!
+void heroOfKvatch(struct Arena* arena) {
     if (arena){
         free(arena);
     }
@@ -64,8 +73,19 @@ int main() {
     char* a_ptr = (char*) enterCombatant(arena, 1);
     if (a_ptr == NULL){
         printf("NO MOAR SEATS IN THE ARENA!\n");
-    }
+    } else {printf("For this match we've got some fresh meat,....\n");}
 
-    greyPrince(arena); // Free memory
+
+    //"But who, you might ask, could possibly be brave enough to face such a 
+    // fearless foe? Who could wrest the title from our famed Gray Prince?"
+    greyPrince(arena);
+    // Now it wont
+    a_ptr = (char*) enterCombatant(arena, 1);
+    if (a_ptr == NULL){
+        printf("NO MOAR SEATS IN THE ARENA!\n");
+    } else {printf("For this match we've got some fresh meat,....\n");}
+
+
+    heroOfKvatch(arena); // memory rekt
     return 0;
 }
