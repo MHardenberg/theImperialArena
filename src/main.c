@@ -19,7 +19,7 @@ struct Arena* constructArena(const unsigned int seats){
     arena_ptr->pos = arena_ptr + sizeof(struct Arena);
 
     return arena_ptr;
-};
+}
 
 
 void* enterCombatant(struct Arena* arena, const unsigned int girth) {  
@@ -41,9 +41,10 @@ void greyPrince(struct Arena* arena) {
 
 int main() {
 
-    struct Arena* arena = constructArena(sizeof(int) * 4);
+    struct Arena* arena = constructArena(sizeof(char) * 4);
     if (arena == NULL) {
         printf("The Arena has failed!!");
+        return 1;
     }
 
     char* x_ptr = (char*) enterCombatant(arena, 1);
@@ -55,19 +56,15 @@ int main() {
     *(z_ptr + 1) = 4;
 
     for (int i = 0; i < 4; ++i) {
-        printf("%d\n", *(char*)(arena->head + i));
+        printf("%d\n", *((char*)arena->head + i));
     }
 
 
     // this will fail.
     int* a_ptr = (int*) enterCombatant(arena, 1);
     if (a_ptr == NULL){
-        printf("a returned NULL");
+        printf("NO MOAR SEATS IN THE ARENA!\n");
     }
-    
-
-
-    
 
     return 0;
 }
