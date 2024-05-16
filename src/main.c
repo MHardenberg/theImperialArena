@@ -15,8 +15,8 @@ struct Arena* constructArena(const unsigned int seats){
     }
 
     arena_ptr->seats = seats;
-    arena_ptr->head = arena_ptr + sizeof(struct Arena);
-    arena_ptr->pos = arena_ptr + sizeof(struct Arena);
+    arena_ptr->head = (void*)(arena_ptr + 1);
+    arena_ptr->pos = arena_ptr->head;
 
     return arena_ptr;
 }
@@ -34,7 +34,7 @@ void* enterCombatant(struct Arena* arena, const unsigned int girth) {
 
 void greyPrince(struct Arena* arena) {
     if (arena){
-    free(arena);
+        free(arena);
     }
 }
 
