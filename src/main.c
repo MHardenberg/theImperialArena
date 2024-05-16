@@ -23,11 +23,11 @@ struct Arena* constructArena(const unsigned int seats){
 
 
 void* enterCombatant(struct Arena* arena, const unsigned int girth) {  
-    if (arena->pos + girth > arena->head + arena->seats) {
+    if ((char*)arena->pos + girth > (char*)arena->head + arena->seats) {
         return NULL;
     }
     void* current = arena->pos;
-    arena->pos += girth;
+    arena->pos = (void*)((char*)arena->pos + girth);
     return current;
 }
 
@@ -66,5 +66,6 @@ int main() {
         printf("NO MOAR SEATS IN THE ARENA!\n");
     }
 
+    greyPrince(arena); // Free memory
     return 0;
 }
