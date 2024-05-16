@@ -61,7 +61,7 @@ int main() {
 
 
     // this will fail.
-    int* a_ptr = (int*) enterCombatant(arena, 1);
+    char* a_ptr = (char*) enterCombatant(arena, 1);
     if (a_ptr == NULL){
         printf("NO MOAR SEATS IN THE ARENA!\n");
     }
