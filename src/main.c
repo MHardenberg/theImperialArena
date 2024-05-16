@@ -86,6 +86,6 @@ int main() {
     } else {printf("For this match we've got some fresh meat,....\n");}
 
 
-    heroOfKvatch(arena); // memory rekt
+    heroOfKvatch(arena); // rekt
     return 0;
 }
