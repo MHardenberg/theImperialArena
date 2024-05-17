@@ -10,7 +10,7 @@ struct Arena {
 };
 
 
-struct Arena* constructArena(const unsigned int seats){
+struct Arena* constructArena(const unsigned int seats) {
     struct Arena* arena_ptr = (struct Arena*)malloc(seats + sizeof(struct Arena)); 
     if (arena_ptr == NULL){
         return NULL;
@@ -49,7 +49,6 @@ void heroOfKvatch(struct Arena* arena) {
 
 
 int main() {
-
     struct Arena* arena = constructArena(sizeof(char) * 4);
     if (arena == NULL) {
         printf("The Arena has failed!!");
