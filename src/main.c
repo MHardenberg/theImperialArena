@@ -12,9 +12,9 @@ struct Arena {
 };
 
 
-struct Arena* constructArena(const unsigned int seats) {
+struct Arena* constructArena(const size_t seats) {
 #ifdef __linux__
-    struct Arena* arena_ptr = mmap(NULL, seats,
+    struct Arena* arena_ptr = mmap(NULL, seats + sizeof(struct Arena),
             PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE,
             -1, 0); 
 #else
