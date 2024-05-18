@@ -5,7 +5,7 @@
 #endif
 
 struct Arena {
-    unsigned int seats;
+    size_t seats;
     void* head;
     void* pos;
 
@@ -13,23 +13,34 @@ struct Arena {
 
 
 struct Arena* constructArena(const size_t seats) {
-#ifdef __linux__
-    struct Arena* arena_ptr = mmap(NULL, seats + sizeof(struct Arena),
-            PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE,
-            -1, 0); 
-#else
-    struct Arena* arena_ptr = malloc(seats + sizeof(struct Arena)); 
-#endif
-
+    struct Arena* arena_ptr = malloc(sizeof(struct Arena));
     if (arena_ptr == NULL){
+        // unable to alloc memory
         return NULL;
     }
 
+#ifdef __linux__
+     void* mem = mmap(NULL, seats + sizeof(struct Arena),
+            PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE,
+            -1, 0); 
+     if (mem == MAP_FAILED) {goto cleanUpArena;}
+
+#else
+    // I don't care
+    void* mem = malloc(seats + sizeof(struct Arena)); 
+     if (mem == NULL) {goto cleanUpArena;}
+#endif
+
+
     arena_ptr->seats = seats;
-    arena_ptr->head = (void*)(arena_ptr + 1);
+    arena_ptr->head = mem;
     arena_ptr->pos = arena_ptr->head;
 
     return arena_ptr;
+
+cleanUpArena:
+    free(arena_ptr);
+    return NULL;
 }
 
 
@@ -53,8 +64,10 @@ void greyPrince(struct Arena* arena) {
 void heroOfKvatch(struct Arena* arena) {
     if (arena){
 #ifdef __linux__
-        munmap(arena, arena->seats);
+        munmap(arena->head, arena->seats);
+        free(arena);
 #else
+        free(arena->head);
         free(arena);
 #endif
     }
@@ -68,13 +81,15 @@ int main() {
         return 1;
     }
 
-    char* x_ptr = (char*) enterCombatant(arena, 1);
-    *x_ptr = 1;
-    char* y_ptr = (char*) enterCombatant(arena, 1);
-    *y_ptr = 2;
-    char* z_ptr = (char*) enterCombatant(arena, 2);
-    *z_ptr = 3;
-    *(z_ptr + 1) = 4;
+    char* x_ptr = (char*)enterCombatant(arena, 1);
+    if (x_ptr != NULL) { *x_ptr = 1;}
+    char* y_ptr = (char*)enterCombatant(arena, 1);
+    if (y_ptr != NULL) {*y_ptr = 2;}
+    char* z_ptr = (char*)enterCombatant(arena, 2);
+    if (z_ptr != NULL) {
+        *z_ptr = 3;
+        *(z_ptr + 1) = 4;
+    }
 
     for (int i = 0; i < 4; ++i) {
         printf("%d\n", *((char*)arena->head + i));
