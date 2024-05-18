@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#ifdef __linux__
+#include <sys/mman.h>
+#endif
 
 struct Arena {
     unsigned int seats;
@@ -11,7 +13,14 @@ struct Arena {
 
 
 struct Arena* constructArena(const unsigned int seats) {
-    struct Arena* arena_ptr = (struct Arena*)malloc(seats + sizeof(struct Arena)); 
+#ifdef __linux__
+    struct Arena* arena_ptr = mmap(NULL, seats,
+            PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE,
+            -1, 0); 
+#else
+    struct Arena* arena_ptr = malloc(seats + sizeof(struct Arena)); 
+#endif
+
     if (arena_ptr == NULL){
         return NULL;
     }
@@ -43,7 +52,11 @@ void greyPrince(struct Arena* arena) {
 // kill everything! Does Skooma!
 void heroOfKvatch(struct Arena* arena) {
     if (arena){
+#ifdef __linux__
+        munmap(arena, arena->seats);
+#else
         free(arena);
+#endif
     }
 }
 
