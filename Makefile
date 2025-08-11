@@ -1,15 +1,12 @@
-cc = gcc
-obj = src/main.c
-out = ./bin/arena.out
-
+src = ./src/arena.c
+obj = ./bin/arena.o
+out = ./bin/lib_arena.a
 cflags = -Wall -Wextra -Wpedantic
-lflags =
 
 devel :
-	$(cc) $(obj) $(cflags) -fsanitize=address $(lflags) -o $(out) -g
-
-run : release
-	$(out)
+	gcc -fPIC -O0  $(cflags) -o $(obj) -c $(src) -g
+	ar -rc $(out) $(obj) 
 
 release :
-	$(cc) $(obj) $(cflags) -o3 $(lflags) -o $(out) -s
+	gcc -fPIC -O3  $(cflags) -o $(obj) -c $(src) -s
+	ar -rc $(out) $(obj) 
