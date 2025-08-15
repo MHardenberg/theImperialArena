@@ -1,3 +1,0 @@
-/home/mitch/theImperialArena/CMakeFiles/ImperialArena.dir
-/home/mitch/theImperialArena/CMakeFiles/edit_cache.dir
-/home/mitch/theImperialArena/CMakeFiles/rebuild_cache.dir

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libImperialArena.a CMakeFiles/ImperialArena.dir/src/arena.c.o
-/usr/bin/ranlib libImperialArena.a

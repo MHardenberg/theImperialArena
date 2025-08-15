@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/home/mitch/theImperialArena",
-  "command": "/usr/bin/cc  -I/home/mitch/theImperialArena/include -O3 -DNDEBUG -o CMakeFiles/ImperialArena.dir/src/arena.c.o -c /home/mitch/theImperialArena/src/arena.c",
-  "file": "/home/mitch/theImperialArena/src/arena.c",
-  "output": "CMakeFiles/ImperialArena.dir/src/arena.c.o"
-}
-]
