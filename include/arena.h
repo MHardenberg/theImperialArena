@@ -7,6 +7,8 @@
 
 #define DEFAULT_ARENA_RESERVATION_SIZE (256 * 1024 * 1024) // 256 MB
 #ifdef DEBUG
+#include <stdio.h>
+
 #define LOG(...)                                                               \
         do {                                                                   \
                 fprintf(stderr, __VA_ARGS__);                                  \
